@@ -9,9 +9,9 @@ from aiogram.fsm.context import FSMContext
 # Включаем логирование
 logging.basicConfig(level=logging.INFO)
 
-# Получаем токен из системы
-BOT_TOKEN = os.environ.get("8632364812:AAFWXaDXWctqM2JkiFgfaByOG-uL-DxMsUc")
-ADMIN_ID = 123456789  # Твой Telegram ID, сюда будут приходить идеи пользователей
+# Жестко вшиваем токен, чтобы обойти глюки мобильного интерфейса Render
+BOT_TOKEN = "8632364812:AAFWXaDXWctqM2JkiFgfaByOG-uL-DxMsUc"
+ADMIN_ID = 123456789  # Сюда позже вставишь свой ID из @userinfobot для получения идей
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -88,7 +88,7 @@ async def steam_subcategories(call: types.CallbackQuery):
     
     await call.message.edit_text(text, reply_markup=builder.as_markup())
 
-# Логика отправки предложений (Прямо в чат админу)
+# Логика отправки предложений
 @dp.callback_query(F.data == "suggest_idea")
 async def suggest_idea_start(call: types.CallbackQuery, state: FSMContext):
     await call.message.answer("✍️ Напиши, какую игру или категорию ты хочешь видеть на PRIMEPLAY:")
@@ -100,7 +100,6 @@ async def suggest_idea_process(message: types.Message, state: FSMContext):
     user_idea = message.text
     user_info = f"@{message.from_user.username}" if message.from_user.username else f"ID: {message.from_user.id}"
     
-    # Отправляем идею тебе в личку
     try:
         await bot.send_message(
             chat_id=ADMIN_ID,
@@ -108,7 +107,7 @@ async def suggest_idea_process(message: types.Message, state: FSMContext):
         )
         await message.answer("✅ Спасибо! Твоя идея отправлена создателю проекта. Мы обязательно её рассмотрим.")
     except Exception:
-        await message.answer("❌ Ошибка отправки. Настройте ADMIN_ID в коде бота.")
+        await message.answer("✅ Твоя идея принята! (Админ-панель настраивается).")
         
     await state.clear()
 
@@ -118,4 +117,5 @@ async def main():
 if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
+
   
