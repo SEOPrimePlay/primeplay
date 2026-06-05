@@ -10,7 +10,7 @@ from aiogram.fsm.context import FSMContext
 logging.basicConfig(level=logging.INFO)
 
 # Жестко вшиваем токен, чтобы обойти глюки мобильного интерфейса Render
-BOT_TOKEN = "8632364812:AAFWXaDXWctqM2JkiFgfaByOG-uL-DxMsUc"
+BOT_TOKEN = "8632364812:AAEsARWmLcAqnZbv0-KnncAWDPYsl2zy020"
 ADMIN_ID = 123456789  # Сюда позже вставишь свой ID из @userinfobot для получения идей
 
 bot = Bot(token=BOT_TOKEN)
